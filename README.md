@@ -13,7 +13,7 @@ kind was primarily designed for testing Kubernetes itself, but may be used for l
 
 ### Faas CLI
 
-faas-cli is the official CLI for [OpenFaaS](https://github.com/openfaas/faas)
+[faas-cli](https://github.com/openfaas/faas-cli) is the official CLI for [OpenFaaS](https://github.com/openfaas/faas)
 
 ## Set up environment
 
@@ -111,9 +111,9 @@ def handle(req):
 ### Compile, build iamges, and deploy functions to OpenFaas
 
 ```bash
-faas-cli build -f hello-python.yml
-kind load docker-image hello-python:latest --name openfaas
-faas-cli deploy -f hello-python.yml
+faas-cli build -f hello-world-python.yml
+kind load docker-image hello-world-python:latest --name openfaas
+faas-cli deploy -f hello-world-python.yml
 ```
 
 ## Notes
@@ -131,4 +131,19 @@ kind delete cluster --name openfaas
 ```bash
 kubectl delete ns openfaas-fn --force --grace-period=0
 kubectl delete ns openfaas --force --grace-period=0
+```
+
+### Invoke Functions
+
+```bash
+faas-cli list
+faas-cli invoke <function>
+
+echo "test" | faas-cli invoke hello-world-python
+```
+
+### Delet Functions
+
+```bash
+faas-cli remove <function>
 ```
