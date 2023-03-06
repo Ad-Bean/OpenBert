@@ -1,0 +1,5 @@
+dotted_dict
+tox
+torch==1.13.0+cpu
+torchvision==0.14.0+cpu
+transformers==3.4.0
