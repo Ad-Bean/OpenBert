@@ -1,4 +1,3 @@
--i https://pypi.tuna.tsinghua.edu.cn/simple
-setuptools_rust
-transformers==3.4.0
+# -i https://pypi.tuna.tsinghua.edu.cn/simple
+transformers
 torch==1.13.0

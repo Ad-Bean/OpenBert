@@ -117,7 +117,6 @@ nsp_l = loss(nsp_Y_hat, nsp_y)
 # print(nsp_l.shape)
 
 
-# @save
 class BERTModel(nn.Module):
     """BERT模型"""
 
