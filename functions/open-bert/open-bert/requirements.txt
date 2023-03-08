@@ -1,5 +1,4 @@
-dotted_dict
-tox
-torch==1.13.0+cpu
-torchvision==0.14.0+cpu
+-i https://pypi.tuna.tsinghua.edu.cn/simple
+setuptools_rust
 transformers==3.4.0
+torch==1.13.0

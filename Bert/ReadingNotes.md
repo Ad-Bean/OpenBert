@@ -5,3 +5,5 @@
 [BERT Text Classification in a different language](https://www.philschmid.de/bert-text-classification-in-a-different-language)
 
 https://bert-as-service.readthedocs.io/en/latest/section/get-start.html
+
+https://github.com/philschmid/serverless-bert-huggingface-aws-lambda-docker
