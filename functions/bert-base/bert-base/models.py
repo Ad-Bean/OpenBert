@@ -27,7 +27,6 @@ class BERTEncoder(nn.Module):
 
 
 class BERTModel(nn.Module):
-
     def __init__(self, vocab_size, num_hiddens, norm_shape, ffn_num_input,
                  ffn_num_hiddens, num_heads, num_layers, dropout,
                  max_len=1000, key_size=768, query_size=768, value_size=768,
@@ -43,12 +42,6 @@ class BERTModel(nn.Module):
         # self.mlm = MaskLM(vocab_size, num_hiddens, mlm_in_features)
         # self.nsp = NextSentencePred(nsp_in_features)
 
-    def forward(self, tokens, segments, valid_lens=None, pred_positions=None):
+    def forward(self, tokens, segments, valid_lens=None):
         encoded_X = self.encoder(tokens, segments, valid_lens)
-        if pred_positions is not None:
-            mlm_Y_hat = self.mlm(encoded_X, pred_positions)
-        else:
-            mlm_Y_hat = None
-        nsp_Y_hat = self.nsp(self.hidden(encoded_X[:, 0, :]))
-        return encoded_X, mlm_Y_hat, nsp_Y_hat
-        # return encoded_X
+        return encoded_X

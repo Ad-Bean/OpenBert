@@ -1,3 +1,2 @@
 -i https://mirrors.cloud.tencent.com/pypi/simple
-torch==1.13.0
-d2l
+requests

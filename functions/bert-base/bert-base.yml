@@ -4,7 +4,6 @@ provider:
   gateway: http://127.0.0.1:8080
 functions:
   bert-base:
-    lang: python
+    lang: python3-debian
     handler: ./bert-base
     image: bert-base:latest
-

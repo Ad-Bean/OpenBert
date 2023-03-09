@@ -8,8 +8,13 @@ def handle(req):
     name = body["name"]
     age = body["age"]
     email = body["email"]
-    print(name)
-    print(age)
-    print(email)
 
-    return "hello world" + name
+    return {
+        "statusCode": 200,
+        "headers": {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            "Access-Control-Allow-Credentials": True
+        },
+        "body": json.dumps({'answer': "hello world! " + name + str(age) + email})
+    }

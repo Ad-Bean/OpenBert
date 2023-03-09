@@ -91,7 +91,7 @@ mkdir -p ./functions/hello-world-python && cd ./functions/hello-world-python
 create functions:
 
 ```bash
-faas-cli new --lang python hello-world-python
+faas-cli new --lang python3-debian hello-world-python
 ```
 
 You will get `hello-world-python  hello-world-python.yml  template` files.
@@ -142,8 +142,16 @@ faas-cli invoke <function>
 echo "test" | faas-cli invoke hello-world-python
 ```
 
-### Delet Functions
+### Delete Functions
 
 ```bash
 faas-cli remove <function>
+```
+
+### Function Chaining
+
+I dont know why it cannot use HTTP request in the function
+
+```bash
+echo "" | faas invoke <function> | faas invoke <function>
 ```
