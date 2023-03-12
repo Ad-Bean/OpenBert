@@ -2,10 +2,9 @@ import json
 import torch
 from transformers import BertModel, BertTokenizer
 
-model_name = 'bert-base-uncased'
-tokenizer = BertTokenizer.from_pretrained(model_name)
-model = BertModel.from_pretrained(model_name, output_hidden_states=True)
-
+model_state_dict = torch.load('bert_model.pth')
+model = BertModel.from_pretrained('bert-base-uncased', state_dict=model_state_dict)
+tokenizer = BertTokenizer.from_pretrained('bert_tokenizer')
 
 def handle(req):
     body = json.loads(req)
