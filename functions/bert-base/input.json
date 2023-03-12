@@ -1,5 +1,4 @@
 {
   "type": "mask",
-  "input_sequence": "The quick ### fox jumps over the lazy dog",
-  "mask_position": 2
+  "input": "The quick fox jumps over the lazy dog"
 }
