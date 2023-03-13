@@ -155,3 +155,19 @@ I dont know why it cannot use HTTP request in the function
 ```bash
 echo "" | faas invoke <function> | faas invoke <function>
 ```
+
+
+### Trouble Shooting
+[Openfaas Docs](https://docs.openfaas.com/deployment/troubleshooting/)
+
+```bash
+kubectl logs -n openfaas deploy/gateway -c gateway
+```
+
+
+```bash
+kubectl logs -n openfaas deploy/gateway -c faas-netes
+
+# Or, if you are using the CRD and Operator:
+kubectl logs -n openfaas deploy/gateway -c operator
+```
