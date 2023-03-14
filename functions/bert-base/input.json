@@ -1,4 +1,5 @@
 {
-    "type": "mask",
-    "input": "What is the capital of France?"
+    "type": "nsp",
+    "text_a": "What is the capital of France?",
+    "text_b": "The Great Wall is a World Cultural Property."
 }

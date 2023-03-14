@@ -1,0 +1,10 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:31112
+functions:
+  bert-qa:
+    lang: python3-debian
+    handler: ./bert-qa
+    image: bert-qa:latest
+
