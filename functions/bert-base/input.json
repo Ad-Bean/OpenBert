@@ -1,4 +1,4 @@
 {
-  "type": "mask",
-  "input": "The quick fox jumps over the lazy dog"
+    "type": "mask",
+    "input": "What is the capital of France?"
 }
