@@ -25,6 +25,12 @@ echo export OPENFAAS_URL=http://127.0.0.1:31112 >> ~/.bashrc
 source ~/.bashrc
 ```
 
+```zsh
+echo export OPENFAAS_URL=http://127.0.0.1:31112 >> ~/.zshrc
+
+source ~/.zshrc
+```
+
 ### Gateway
 
 ```bash

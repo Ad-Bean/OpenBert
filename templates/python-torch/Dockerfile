@@ -23,7 +23,6 @@ WORKDIR /home/app/
 COPY index.py           .
 COPY requirements.txt   .
 
-
 RUN chown -R app /home/app && \
     mkdir -p /home/app/python && chown -R app /home/app
 RUN mkdir -p /.cache && chown -R app /.cache 
@@ -37,14 +36,15 @@ RUN pip install -r requirements.txt --target=/home/app/python
 RUN mkdir -p function
 RUN touch ./function/__init__.py
 
+COPY get_model.py      .
+
 WORKDIR /home/app/function/
 COPY function/requirements.txt	.
-COPY function/get_model.py      .
 
 RUN pip install -r requirements.txt --target=/home/app/python
-RUN python get_model.py
 
 WORKDIR /home/app/
+RUN python get_model.py
 
 USER root
 

@@ -1,12 +1,16 @@
 import json
 import torch
-from transformers import BertModel, BertTokenizer, BertForNextSentencePrediction
+from transformers import logging, BertModel, BertTokenizer, BertForNextSentencePrediction
+
+logging.set_verbosity_error()
 
 model_name = 'bert-base-uncased'
 model_state_dict = torch.load('bert_model.pth')
 model = BertModel.from_pretrained(model_name, state_dict=model_state_dict)
 tokenizer = BertTokenizer.from_pretrained(model_name)
-modelNSP = BertForNextSentencePrediction.from_pretrained(model_name)
+modelNSP = BertForNextSentencePrediction.from_pretrained(
+    model_name, state_dict=model_state_dict)
+
 
 def handle(req):
     body = json.loads(req)
@@ -15,11 +19,16 @@ def handle(req):
         text_a = body["text_a"]
         text_b = body["text_b"]
         inputs = tokenizer(text_a, text_b, return_tensors='pt')
-        outputs = model(**inputs)
-        # return outputs
+        outputs = modelNSP(**inputs)
         probability = torch.softmax(outputs.logits, dim=1)[0][0].item()
-        print(f"The probability that text_b follows text_a is {probability:.2f}.")
-    elif type == "mask"
+
+        res = {
+            "text_a": text_a,
+            "text_b": text_b,
+            "probability": probability
+        }
+        return json.dumps(res)
+    elif type == "mask":
         input_text = body["input"]
         input_ids = torch.tensor(
             [tokenizer.encode(input_text, add_special_tokens=True)])
