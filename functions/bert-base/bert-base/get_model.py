@@ -1,8 +1,10 @@
 import torch
-from transformers import BertModel, BertTokenizer
+from transformers import BertModel, AutoTokenizer
 
-model = BertModel.from_pretrained('bert-base-uncased')
-tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+
+model_name = 'bert-large-uncased'
+model = BertModel.from_pretrained(model_name)
+tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 torch.save(model.state_dict(), 'bert_model.pth')
 tokenizer.save_pretrained('bert_tokenizer')
