@@ -1,11 +1,11 @@
 from transformers import pipeline
 import json
 import torch
-from transformers import logging, BertModel, AutoTokenizer, BertForMaskedLM, BertForNextSentencePrediction
+from transformers import logging, BertModel, AutoTokenizer, BartForConditionalGeneration, BertForMaskedLM, BertForNextSentencePrediction
 
 logging.set_verbosity_error()
 
-model_name = 'bert-large-uncased'
+model_name = 'bert-base-uncased'
 model_state_dict = torch.load('bert_model.pth')
 
 tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -14,6 +14,8 @@ model = BertModel.from_pretrained(model_name, state_dict=model_state_dict)
 modelNSP = BertForNextSentencePrediction.from_pretrained(
     model_name, state_dict=model_state_dict)
 modelMLM = BertForMaskedLM.from_pretrained(
+    model_name, state_dict=model_state_dict)
+modelCG = BartForConditionalGeneration.from_pretrained(
     model_name, state_dict=model_state_dict)
 
 
@@ -79,7 +81,14 @@ model = BertForMaskedLM.from_pretrained(model_name)
 # print(predicted)
 # text = "Hello I'm a [MASK] model."
 # text = "The capital of France is [MASK]."
-text = "The quick brown fox jumps over the [MASK] dog."
-unmasker = pipeline('fill-mask', model='bert-base-uncased')
+# text = "The quick brown fox jumps over the [MASK] dog."
+text = "The multiline prop transforms the text field into a TextareaAutosize element. Unless the rows prop is set, the height of the text field dynamically matches its content(using TextareaAutosize). You can use the minRows and maxRows props to bound it."
+unmasker = pipeline('summarization', model=model_name)
 ans = unmasker(text)
 print(ans)
+
+# for dict_ in ans:
+# print('score {}'.format(dict_['score']))
+# print('token {}'.format(dict_['token']))
+# print('{}'.format(dict_['token_str']))
+# print('{}'.format(dict_['sequence']))
