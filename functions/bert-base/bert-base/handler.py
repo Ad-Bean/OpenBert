@@ -40,6 +40,7 @@ def handle(req):
         unmasker = pipeline("fill-mask", model=model_name)
         ans = unmasker(text, top_k=1)
         res = {
+            "text": text,
             "score": ans[0]["score"],
             "token_str": ans[0]["token_str"],
             "sequence": ans[0]["sequence"]
