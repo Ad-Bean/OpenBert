@@ -1,0 +1,14 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:31112
+functions:
+  bert-mlm-pretrained:
+    lang: python3-debian
+    handler: ./bert-mlm-pretrained
+    image: bert-mlm-pretrained:latest
+    environment:
+      read_timeout: "6000s"
+      write_timeout: "6000s"
+      exec_timeout: "6000s"
+
