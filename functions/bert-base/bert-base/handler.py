@@ -73,8 +73,13 @@ def handle(req):
         #         "probability": predicted_probs[i].item(),
         #     })
         # return res
-    # elif type == "":
-
+    elif type == "mask-imdb":
+        text = body["text"]
+        res = {
+            "text": text,
+            "model_name": "huggingface-course/distilbert-base-uncased-finetuned-imdb"
+        }
+        return json.dumps(res)
         # # Define text and tokenize it
         # inputs = tokenizer(text, return_tensors='pt')
         # with torch.no_grad():
