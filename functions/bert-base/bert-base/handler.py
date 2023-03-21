@@ -80,6 +80,14 @@ def handle(req):
             "model_name": "huggingface-course/distilbert-base-uncased-finetuned-imdb"
         }
         return json.dumps(res)
+    elif type == "ner":
+        text = body["text"]
+        res = {
+            "text": text,
+            "model_name": "huggingface-course/bert-finetuned-ner"
+        }
+        return json.dumps(res)
+
         # # Define text and tokenize it
         # inputs = tokenizer(text, return_tensors='pt')
         # with torch.no_grad():
