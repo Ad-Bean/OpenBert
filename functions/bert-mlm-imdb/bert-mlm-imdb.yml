@@ -7,4 +7,7 @@ functions:
     lang: python3-debian
     handler: ./bert-mlm-imdb
     image: bert-mlm-imdb:latest
-
+    environment:
+      read_timeout: "6000s"
+      write_timeout: "6000s"
+      exec_timeout: "6000s"
