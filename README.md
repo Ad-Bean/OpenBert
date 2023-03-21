@@ -114,6 +114,11 @@ def handle(req):
     return ("Hello world!" + req)
 ```
 
+Or if you have Make:
+```bash
+make create-py name=hello-test
+```
+
 ### Compile, build iamges, and deploy functions to OpenFaas
 
 ```bash

@@ -1,2 +1,2 @@
-language: python-torch
+language: python3-debian
 fprocess: python3 index.py

@@ -1,13 +1,11 @@
 FROM --platform=${TARGETPLATFORM:-linux/amd64} ghcr.io/openfaas/classic-watchdog:0.2.1 as watchdog
-FROM --platform=${TARGETPLATFORM:-linux/amd64} bitnami/pytorch
+FROM --platform=${TARGETPLATFORM:-linux/amd64} python:3
 
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 
 # Allows you to add additional packages via build-arg
 ARG ADDITIONAL_PACKAGE
-
-USER root
 
 COPY --from=watchdog /fwatchdog /usr/bin/fwatchdog
 RUN chmod +x /usr/bin/fwatchdog
@@ -25,8 +23,6 @@ COPY requirements.txt   .
 
 RUN chown -R app /home/app && \
     mkdir -p /home/app/python && chown -R app /home/app
-RUN mkdir -p /.cache && chown -R app /.cache 
-
 USER app
 ENV PATH=$PATH:/home/app/.local/bin:/home/app/python/bin/
 ENV PYTHONPATH=$PYTHONPATH:/home/app/python
@@ -36,15 +32,12 @@ RUN pip install -r requirements.txt --target=/home/app/python
 RUN mkdir -p function
 RUN touch ./function/__init__.py
 
-COPY get_model.py      .
-
 WORKDIR /home/app/function/
 COPY function/requirements.txt	.
 
 RUN pip install -r requirements.txt --target=/home/app/python
 
 WORKDIR /home/app/
-RUN python get_model.py
 
 USER root
 
