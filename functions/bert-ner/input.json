@@ -1,4 +1,5 @@
 {
     "type": "ner",
-    "text": "My name is Sylvain and I work at Hugging Face in Brooklyn."
+    "text": "My name is Sylvain and I work at Hugging Face in Brooklyn.",
+    "model_name": "huggingface-course/bert-finetuned-ner"
 }
