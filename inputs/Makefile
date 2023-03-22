@@ -4,6 +4,9 @@ mlm:
 nsp:
 	cat nsp.json | faas-cli invoke bert-base | faas-cli invoke bert-nsp
 	
+qa:
+	cat qa.json | faas-cli invoke bert-base | faas-cli invoke bert-qa
+
 ner:
 	cat ner.json | faas-cli invoke bert-base | faas-cli invoke bert-ner
 
