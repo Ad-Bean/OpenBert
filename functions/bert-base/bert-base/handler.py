@@ -46,33 +46,6 @@ def handle(req):
             "sequence": ans[0]["sequence"]
         }
         return json.dumps(res)
-
-        # text = body["text"]
-        # tokens = tokenizer.tokenize(text)
-        # masked_indices = [i for i, x in enumerate(tokens) if x == '[MASK]']
-        # input_ids = tokenizer.convert_tokens_to_ids(tokens)
-        # input_tensor = torch.tensor([input_ids])
-        # with torch.no_grad():
-        #     outputs = modelMLM(input_tensor)
-        #     logits = outputs[0]
-
-        # masked_logits = logits[0, masked_indices]
-        # probs = torch.softmax(masked_logits, dim=1)
-        # predicted_ids = torch.argmax(probs, dim=1)
-        # predicted_probs = torch.max(probs, dim=1).values
-        # predicted_tokens = tokenizer.convert_ids_to_tokens(predicted_ids)
-        # res = []
-        # for i in range(len(masked_indices)):
-        #     print('Masked token:', tokens[masked_indices[i]])
-        #     print('Predicted token:', predicted_tokens[i])
-        #     print('Probability:', predicted_probs[i].item())
-        #     print('----------------------')
-        #     res.append({
-        #         "masked_token": tokens[masked_indices[i]],
-        #         "predicted_token": predicted_tokens[i],
-        #         "probability": predicted_probs[i].item(),
-        #     })
-        # return res
     elif type == "mask-imdb":
         text = body["text"]
         res = {
@@ -87,7 +60,18 @@ def handle(req):
             "model_name": "huggingface-course/bert-finetuned-ner"
         }
         return json.dumps(res)
-
+    elif type == "qa":
+        context = body["context"]
+        question = body["question"]
+        model_name = "huggingface-course/bert-finetuned-squad"
+        res = {
+            "context": context,
+            "question": question,
+            "model_name": "huggingface-course/bert-finetuned-squad"
+        }
+        return json.dumps(res)
+    else:
+        return "failed to process the task"
         # # Define text and tokenize it
         # inputs = tokenizer(text, return_tensors='pt')
         # with torch.no_grad():
