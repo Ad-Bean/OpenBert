@@ -37,6 +37,7 @@ def handle(req):
         return json.dumps(res)
     elif type == "mask":
         text = body["text"]
+        model_name = 'bert-base-uncased'
         unmasker = pipeline("fill-mask", model=model_name)
         ans = unmasker(text, top_k=1)
         res = {
