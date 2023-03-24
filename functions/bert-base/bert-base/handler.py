@@ -87,5 +87,13 @@ def handle(req):
             "model_name": model_name
         }
         return json.dumps(res)
+    elif type == "key":
+        text = body["text"]
+        model_name = 'ml6team/keyphrase-extraction-distilbert-inspec'
+        res = {
+            "text": text,
+            "model_name": model_name
+        }
+        return json.dumps(res)
     else:
         return "failed to process the task"
