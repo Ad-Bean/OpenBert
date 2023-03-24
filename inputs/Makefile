@@ -13,5 +13,9 @@ sa:
 ner:
 	cat ner.json | faas-cli invoke bert-base | faas-cli invoke bert-ner
 
+key:
+	cat key.json | faas-cli invoke bert-base | faas-cli invoke bert-key 
+
 mlm-imdb:
 	cat mlm-imdb.json | faas-cli invoke bert-base | faas-cli invoke bert-mlm-imdb | faas-cli invoke bert-mlm
+
