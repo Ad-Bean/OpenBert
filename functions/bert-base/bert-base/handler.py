@@ -79,5 +79,13 @@ def handle(req):
             "model_name": model_name
         }
         return json.dumps(res)
+    elif type == "sum":
+        text = body["text"]
+        model_name = 'Callidior/bert2bert-base-arxiv-titlegen'
+        res = {
+            "text": text,
+            "model_name": model_name
+        }
+        return json.dumps(res)
     else:
         return "failed to process the task"
