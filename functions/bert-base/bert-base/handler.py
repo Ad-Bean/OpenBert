@@ -71,47 +71,13 @@ def handle(req):
             "model_name": "huggingface-course/bert-finetuned-squad"
         }
         return json.dumps(res)
+    elif type == "sa":
+        text = body["text"]
+        model_name = 'nickwong64/bert-base-uncased-poems-sentiment'
+        res = {
+            "text": text,
+            "model_name": model_name
+        }
+        return json.dumps(res)
     else:
         return "failed to process the task"
-        # # Define text and tokenize it
-        # inputs = tokenizer(text, return_tensors='pt')
-        # with torch.no_grad():
-        #     logits = modelMLM(**inputs).logits
-
-        # mask_token_index = (inputs.input_ids == tokenizer.mask_token_id)[
-        #     0].nonzero(as_tuple=True)[0]
-
-        # predicted_token_id = logits[0, mask_token_index].argmax(axis=-1)
-        # predicted = tokenizer.decode(predicted_token_id)
-
-        # print(predicted)
-        # text = "Hello I'm a [MASK] model."
-        # text = "The capital of France is [MASK]."
-        # text = "The quick brown fox jumps over the [MASK] dog."
-        # text = "The multiline prop transforms the text field into a TextareaAutosize element. Unless the rows prop is set, the height of the text field dynamically matches its content(using TextareaAutosize). You can use the minRows and maxRows props to bound it."
-        # unmasker = pipeline('summarization', model=model_name)
-        # ans = unmasker(text)
-        # print(ans)
-
-        # Not for Bert
-        # generator = pipeline("text-generation", model=model_name)
-        # ans = generator("In this course, we will teach you how to",
-        #                 max_length=30,
-        #                 num_return_sequences=1)
-        # print(ans)
-        # for dict_ in ans:
-        # print('score {}'.format(dict_['score']))
-        # print('token {}'.format(dict_['token']))
-        # print('{}'.format(dict_['token_str']))
-        # print('{}'.format(dict_['sequence']))
-
-        # NER Named entity recognition
-
-        # ner = pipeline("ner", model=model_name)
-        # ans = ner("I love this great movie")
-
-        # print(ans)
-        # for aaa in ans:
-        #     print('entity: {}'.format(aaa['entity']))
-        #     print('word: {}'.format(aaa['word']))
-        #     print('')
