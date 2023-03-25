@@ -10,7 +10,7 @@ function Pagination({ current, total, setPage }: Props) {
   const pages = Array.from({ length: total }, (_, index) => index + 1);
 
   return (
-    <ol className="mt-4 flex justify-center gap-1 text-xs font-medium">
+    <ol className="fixed left-0 bottom-10 mx-auto w-full flex justify-center gap-1 text-xs font-medium">
       <li>
         <a
           onClick={() => {

@@ -19,7 +19,7 @@ type BlogCardPorps = {
   blog: Blog;
 };
 const BlogCard = ({ blog }: BlogCardPorps) => (
-  <article className="rounded-lg border border-gray-100 p-4 shadow-sm transition hover:shadow-lg sm:p-6 my-2 max-w-4xl mx-auto">
+  <article className="rounded-lg border border-gray-100 p-4 shadow-sm transition hover:shadow-lg sm:p-6 my-6 max-w-4xl mx-auto">
     <span className="inline-block rounded bg-blue-600 p-2 text-white">
       <svg
         xmlns="http://www.w3.org/2000/svg"
