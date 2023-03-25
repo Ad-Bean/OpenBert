@@ -11,5 +11,11 @@ export default function WordCloud({ words }: Props) {
     rotationAngles: [-90, 0],
   };
 
-  return <ReactWordcloud options={options} words={words} />;
+  return (
+    <div className="mx-auto max-w-5xl">
+      <section className="mt-2">
+        <ReactWordcloud options={options} words={words} />
+      </section>
+    </div>
+  );
 }

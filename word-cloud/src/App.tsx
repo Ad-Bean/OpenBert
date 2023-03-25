@@ -1,87 +1,60 @@
 import { useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
 import WordCloud from "./components/WordCloud";
-
-const option = {
-  series: [
-    {
-      type: "wordCloud",
-      shape: "circle",
-      sizeRange: [10, 30],
-      rotationRange: [-90, 90],
-      rotationStep: 45,
-      gridSize: 10,
-      drawOutOfBound: false,
-      textStyle: {
-        normal: {
-          fontFamily: "sans-serif",
-          fontWeight: "bold",
-          color: function () {
-            return (
-              "rgb(" +
-              [
-                Math.round(Math.random() * 160),
-                Math.round(Math.random() * 160),
-                Math.round(Math.random() * 160),
-              ].join(",") +
-              ")"
-            );
-          },
-        },
-      },
-      // increase maxSize and reduce minSize to allow for more word sizes
-      maxSize: 100,
-      minSize: 5,
-      data: [],
-    },
-  ],
-};
+import BlogPosts from "./components/BlogPosts";
+import Loading from "./components/Loading";
+import { WordCloudOptions, WordCloudType } from "./types/WordCloud";
+import { Blog } from "./types/Blog";
+import Pagination from "./components/Pagination";
 
 function App() {
-  const [words, setWords] = useState();
+  const [words, setWords] = useState<WordCloudOptions[]>();
+  const [blogs, setBlogs] = useState<Blog[]>();
+  const [page, setPage] = useState(1);
+  const pageSize = 3;
+
+  const fetchData = () => {
+    fetch("http://localhost:8000/api/v1/wordcloud")
+      .then((response) => response.json())
+      .then((data: WordCloudType[]) =>
+        setWords(
+          data.map((d) => ({
+            value: d[0] + Math.floor(Math.random() * 100 + 20),
+            text: d[1],
+          }))
+        )
+      )
+      .catch((error) => console.log(error));
+  };
+
+  const fetchPosts = (page: number, pageSize: number) => {
+    fetch(
+      `https://hnstream.herokuapp.com/api/v1/posts?page_number=${page}&page_size=${pageSize}`
+    )
+      .then((response) => response.json())
+      .then((posts: Blog[]) => {
+        setBlogs(posts);
+      })
+      .catch((error) => console.log(error));
+  };
 
   useEffect(() => {
-    const fetchData = () => {
-      fetch("http://localhost:8000/api/v1/wordcloud")
-        .then((response) => response.json())
-        .then((data) => {
-          setWords(
-            data.map((d: any) => {
-              return {
-                value: d[0] + Math.floor(Math.random() * 100 + 1),
-                text: d[1],
-              };
-            })
-          );
-        })
-        .catch((error) => console.log(error));
-    };
+    fetchPosts(page, pageSize);
+  }, [page]);
 
-    fetchData();
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      fetchData();
+    }, 10000);
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
-    <div className="App">
-      {words && <WordCloud words={words} />}
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div className="mx-auto max-w-5xl">
+      {words ? <WordCloud words={words} /> : <Loading />}
+
+      <BlogPosts blogs={blogs} />
+
+      <Pagination current={page} total={10} setPage={setPage} />
     </div>
   );
 }
