@@ -8,7 +8,11 @@ type Props = {
 function BlogPosts({ blogs }: Props) {
   return (
     <div className="app">
-      {blogs ? blogs?.map((blog) => <BlogCard blog={blog} />) : <LoadingCard />}
+      {blogs ? (
+        blogs?.map((blog, idx) => <BlogCard key={idx} blog={blog} />)
+      ) : (
+        <LoadingCard />
+      )}
     </div>
   );
 }
@@ -49,7 +53,10 @@ const BlogCard = ({ blog }: BlogCardPorps) => (
 
     <div className="mt-1 -ml-1 flex flex-wrap gap-2">
       {blog.keyphrases.map((key) => (
-        <span className="whitespace-nowrap rounded-full bg-blue-100 px-2.5 py-0.5 text-xs text-blue-600">
+        <span
+          key={key}
+          className="whitespace-nowrap rounded-full bg-blue-100 px-2.5 py-0.5 text-xs text-blue-600"
+        >
           {key}
         </span>
       ))}

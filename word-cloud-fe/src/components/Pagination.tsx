@@ -34,8 +34,8 @@ function Pagination({ current, total, setPage }: Props) {
         </a>
       </li>
 
-      {pages.map((p) => (
-        <li>
+      {pages.map((p, idx) => (
+        <li key={idx}>
           <a
             onClick={() => setPage(p)}
             className={`block h-8 w-8 rounded text-center leading-8 cursor-pointer ${

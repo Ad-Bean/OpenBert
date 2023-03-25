@@ -13,7 +13,7 @@ function App() {
   const pageSize = 3;
 
   const fetchData = () => {
-    fetch("http://localhost:8000/api/v1/wordcloud")
+    fetch("https://hnstream.herokuapp.com/api/v1/wordcloud")
       .then((response) => response.json())
       .then((data: WordCloudType[]) =>
         setWords(
