@@ -8,6 +8,6 @@ functions:
     handler: ./bert-base
     image: bert-base:latest
     environment:
-      read_timeout: "6000s"
-      write_timeout: "6000s"
-      exec_timeout: "6000s"
+      read_timeout: 6000
+      write_timeout: 6000
+      exec_timeout: 6000
