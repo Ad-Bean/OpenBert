@@ -11,6 +11,17 @@ tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModel.from_pretrained(model_name, state_dict=model_state_dict)
 
 
+def getType(word):
+    if word == "PER":
+        return "人名"
+    elif word == "ORG":
+        return "组织"
+    elif word == "LOC":
+        return "地点"
+    else:
+        return word
+
+
 def handle(req):
     body = json.loads(req)
     text = body["text"]
@@ -20,4 +31,10 @@ def handle(req):
                            model=model_name, aggregation_strategy="simple")
     ans = mask_filler(text)
 
-    return json.dumps(ans)
+    res = "输入句子：{}\n\n".format(text)
+    for n in ans:
+        res += "类型：{}\n".format(getType(n["entity_group"]))
+        res += "单词：{}\n".format(n["word"])
+        res += "得分：{}\n\n".format(n["score"])
+
+    return res

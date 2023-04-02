@@ -75,6 +75,39 @@
 # # 打印答案
 # print('答案：', answer)
 
-test = 0.5029111504554749 * 100
+# test = 0.5029111504554749 * 100
 
-print(f"{test:.2f} %")
+# print(f"{test:.2f} %")
+
+import json
+
+
+arr = [{'entity_group': 'PER', 'score': 0.9988506, 'word': 'Sylvain', 'start': 11, 'end': 18}, {'entity_group': 'ORG', 'score': 0.9647625,
+                                                                                                'word': 'Hugging Face', 'start': 33, 'end': 45}, {'entity_group': 'LOC', 'score': 0.9986118, 'word': 'Brooklyn', 'start': 49, 'end': 57}]
+
+
+def getType(word):
+    if word == "PER":
+        return "人名"
+    elif word == "ORG":
+        return "组织"
+    elif word == "LOC":
+        return "地点"
+    else:
+        return word
+
+
+res = ""
+
+for n in arr:
+    # temp = {
+    #     "entity_group": getType(n["entity_group"]),
+    #     "score": n["score"],
+    #     "word": n["word"]
+    # }
+    # res.append(temp)
+    res += "类型：{}\n".format(getType(n["entity_group"]))
+    res += "单词：{}\n".format(n["word"])
+    res += "得分：{}\n\n".format(n["score"])
+
+print(res)

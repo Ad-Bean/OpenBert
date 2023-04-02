@@ -82,6 +82,29 @@ Run `kubectl get all -n openfaas` to get all pods
 
 Run `kubectl logs gateway-6787cc5f9-rj9ct -c faas-netes -n openfaas --since 0` to check the logs from openfass-gateway
 
+## Expand Gateway timeout
+since the default timeout of gateway is 60s, it cannot support large model. We need to expand the `write_timeout`
+
+`/faas-netes/yaml/gateway-dep.yml`
+```yaml
+        env:
+        - name: read_timeout
+          value: "6500s"
+        - name: write_timeout
+          value: "6500s"
+        - name: upstream_timeout
+          value: "6000s"
+```
+
+`/faas-netes/chart/openfaas/values.yaml`
+```yaml
+gateway:
+  image: ghcr.io/openfaas/gateway:0.26.3
+  readTimeout: "6500s"
+  writeTimeout: "6500s"
+  upstreamTimeout: "6000s"  # Must be smaller than read/write_timeout
+```
+
 ## Functions
 
 faas-cli login:
