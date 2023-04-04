@@ -1,0 +1,7 @@
+{
+  "type": "pretrain",
+  "datasets": "imdb",
+  "model_name": "distilbert-base-uncased",
+  "secret": "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",
+  "chunk_size": 128
+}

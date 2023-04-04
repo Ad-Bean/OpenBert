@@ -12,15 +12,16 @@ model = BertModel.from_pretrained(model_name, state_dict=model_state_dict)
 
 modelNSP = BertForNextSentencePrediction.from_pretrained(
     model_name, state_dict=model_state_dict)
-modelMLM = BertForMaskedLM.from_pretrained(
-    model_name, state_dict=model_state_dict)
-modelCG = BartForConditionalGeneration.from_pretrained(
-    model_name, state_dict=model_state_dict)
 
 
 def handle(req):
-    body = json.loads(req)
-    type = body["type"]
+    try:
+        body = json.loads(req)
+        type = body["type"]
+    except json.JSONDecodeError as e:
+        print("Error decoding JSON:", e.msg)
+        return "failed to process the task"
+
     if type == "nsp":
         # pipeline does not have next sentence prediction task
         text_a = body["text_a"]

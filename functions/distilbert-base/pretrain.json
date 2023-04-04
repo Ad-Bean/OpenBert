@@ -1,0 +1,6 @@
+{
+  "type": "pretrain",
+  "datastes": "imdb",
+  "model_name": "distilbert-base-uncased",
+  "chunk_size": 128
+}
