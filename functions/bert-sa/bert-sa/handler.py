@@ -4,7 +4,7 @@ from transformers import pipeline, logging, AutoTokenizer, AutoModel
 
 logging.set_verbosity_error()
 
-model_name = "nickwong64/bert-base-uncased-poems-sentiment"
+model_name = "bhadresh-savani/bert-base-go-emotion"
 model_state_dict = torch.load('bert_model.pth')
 
 tokenizer = AutoTokenizer.from_pretrained(model_name)

@@ -77,7 +77,7 @@ def handle(req):
         return json.dumps(res)
     elif type == "sa":
         text = body["text"]
-        model_name = 'nickwong64/bert-base-uncased-poems-sentiment'
+        model_name = 'bhadresh-savani/bert-base-go-emotion'
         res = {
             "text": text,
             "model_name": model_name
