@@ -5,13 +5,16 @@ from transformers import pipeline, logging, BertModel, AutoTokenizer, BartForCon
 logging.set_verbosity_error()
 
 model_name = 'bert-base-uncased'
-model_state_dict = torch.load('bert_model.pth')
+# model_state_dict = torch.load('bert_model.pth')
 
 tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = BertModel.from_pretrained(model_name, state_dict=model_state_dict)
+# model = BertModel.from_pretrained(model_name, state_dict=model_state_dict)
+model = BertModel.from_pretrained(model_name)
 
+# modelNSP = BertForNextSentencePrediction.from_pretrained(
+#     model_name, state_dict=model_state_dict)
 modelNSP = BertForNextSentencePrediction.from_pretrained(
-    model_name, state_dict=model_state_dict)
+    model_name)
 
 
 def handle(req):
@@ -28,12 +31,12 @@ def handle(req):
         text_b = body["text_b"]
         inputs = tokenizer(text_a, text_b, return_tensors='pt')
         outputs = modelNSP(**inputs)
-        probability = torch.softmax(outputs.logits, dim=1)[0][0].item()
-
+        probability = torch.nn.functional.softmax(
+            outputs.logits, dim=1)[0][0].item()
         res = {
             "text_a": text_a,
             "text_b": text_b,
-            "probability": probability
+            "probability": probability,
         }
         return json.dumps(res)
     elif type == "mask":

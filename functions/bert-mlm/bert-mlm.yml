@@ -7,3 +7,6 @@ functions:
     lang: python3
     handler: ./bert-mlm
     image: bert-mlm:latest
+environment:
+  write_debug: "true"
+prometheus_annotation: "true"

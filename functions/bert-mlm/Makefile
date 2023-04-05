@@ -4,4 +4,4 @@ deploy:
 	faas-cli deploy -f bert-mlm.yml
 
 run:
-	cat input.json | faas invoke bert-base | faas-cli invoke bert-mlm
+	cat input.json | faas-cli invoke bert-base | faas-cli invoke bert-mlm

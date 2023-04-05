@@ -1,4 +1,4 @@
 {
   "type": "mask",
-  "text": "The capital of France is [MASK]"
+  "text": "Paris is the [MASK] of France"
 }
