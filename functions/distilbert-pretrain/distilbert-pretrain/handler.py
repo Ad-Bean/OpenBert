@@ -1,14 +1,16 @@
 import json
 import math
-from transformers import AutoModel, AutoTokenizer, DataCollatorForLanguageModeling, TrainingArguments, Trainer, default_data_collator
+from transformers import logging, AutoModel, AutoModelForMaskedLM, AutoTokenizer, DataCollatorForLanguageModeling, TrainingArguments, Trainer, default_data_collator
 from datasets import load_dataset
 import collections
 import numpy as np
 from huggingface_hub import login
 
+logging.set_verbosity_error()
 wwm_probability = 0.2
 model_name = 'distilbert-base-uncased'
-model = AutoModel.from_pretrained(model_name)
+# model = AutoModel.from_pretrained(model_name)
+model = AutoModelForMaskedLM.from_pretrained(model_name)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 #
@@ -132,7 +134,7 @@ def handle(req):
             per_device_train_batch_size=batch_size,
             per_device_eval_batch_size=batch_size,
             push_to_hub=True,
-            # fp16=True,
+            fp16=True,
             logging_steps=logging_steps,
         )
         trainer = Trainer(
@@ -148,6 +150,9 @@ def handle(req):
 
         trainer.train()
 
+        eval_results = trainer.evaluate()
+        print(f">>> Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
+        
         trainer.push_to_hub()
 
     return req
