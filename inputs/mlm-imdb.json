@@ -1,4 +1,4 @@
 {
-    "type": "mask-imdb",
-    "text": "this is a great [MASK]."
+  "type": "mask-imdb",
+  "text": "this is a great [MASK]."
 }

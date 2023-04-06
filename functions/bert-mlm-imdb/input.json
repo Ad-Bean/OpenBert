@@ -1,4 +1,5 @@
 {
-    "type": "mask-imdb",
-    "text": "this is a great [MASK]."
+  "type": "mask-imdb",
+  "model_name": "huggingface-course/distilbert-base-uncased-finetuned-imdb",
+  "text": "this is a great [MASK]."
 }

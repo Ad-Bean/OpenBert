@@ -1,7 +1,9 @@
 all: mlm mlm-imdb nsp qa sa ner key 
 
+tasks: qa sa ner key sum
+
 mlm:
-	cat mlm.json | faas-cli invoke bert-base | faas-cli invoke bert-mlm
+	cat mlm.json | faas-cli invoke distilbert-base | faas-cil invoke bert-mlm-imdb | faas-cli invoke bert-mlm
 
 nsp:
 	cat nsp.json | faas-cli invoke bert-base | faas-cli invoke bert-nsp

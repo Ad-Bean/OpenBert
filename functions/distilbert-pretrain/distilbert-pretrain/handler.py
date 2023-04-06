@@ -120,6 +120,7 @@ def handle(req):
         downsampled_dataset = lm_datasets["train"].train_test_split(
             train_size=train_size, test_size=test_size, seed=42
         )
+        print(downsampled_dataset)
         batch_size = 64
 
         # Show the training loss with every epoch
@@ -133,8 +134,8 @@ def handle(req):
             weight_decay=0.01,
             per_device_train_batch_size=batch_size,
             per_device_eval_batch_size=batch_size,
-            push_to_hub=True,
-            fp16=True,
+            # push_to_hub=True,
+            # fp16=True,
             logging_steps=logging_steps,
         )
         trainer = Trainer(
@@ -152,7 +153,7 @@ def handle(req):
 
         eval_results = trainer.evaluate()
         print(f">>> Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
-        
-        trainer.push_to_hub()
+
+        # trainer.push_to_hub()
 
     return req

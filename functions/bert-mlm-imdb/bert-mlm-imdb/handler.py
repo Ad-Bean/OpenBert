@@ -5,10 +5,11 @@ from transformers import pipeline, logging, AutoTokenizer, AutoModel
 logging.set_verbosity_error()
 
 model_name = "huggingface-course/distilbert-base-uncased-finetuned-imdb"
-model_state_dict = torch.load('bert_model.pth')
+# model_state_dict = torch.load('bert_model.pth')
 
 tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModel.from_pretrained(model_name, state_dict=model_state_dict)
+# model = AutoModel.from_pretrained(model_name, state_dict=model_state_dict)
+model = AutoModel.from_pretrained(model_name)
 
 
 def handle(req):

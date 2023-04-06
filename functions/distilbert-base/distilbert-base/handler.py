@@ -21,10 +21,19 @@ def handle(req):
         unmasker = pipeline("fill-mask", model=model_name)
         ans = unmasker(text, top_k=1)
         res = {
+            "type": type,
             "text": text,
             "score": ans[0]["score"],
             "token_str": ans[0]["token_str"],
             "sequence": ans[0]["sequence"]
+        }
+        return json.dumps(res)
+    elif type == "mask-imdb":
+        text = body["text"]
+        res = {
+            "type": type,
+            "text": text,
+            "model_name": "huggingface-course/distilbert-base-uncased-finetuned-imdb"
         }
         return json.dumps(res)
     elif type == "pretrain":
