@@ -20,7 +20,8 @@ def handle(req):
     question_answerer = pipeline("question-answering", model=model_name)
     ans = question_answerer(question=question, context=context)
 
-    res = "问题：{}\n\n".format(question)
+    res = "背景：{}\n\n".format(context)
+    res += "问题：{}\n\n".format(question)
     res += "答案：{}\n".format(ans["answer"])
     res += "得分：{}\n".format(ans["score"])
     return res

@@ -20,6 +20,9 @@ ner:
 key:
 	cat key.json | faas-cli invoke bert-base | faas-cli invoke bert-key 
 
+sum:
+	cat sum.json | faas-cli invoke bert-base | faas-cli invoke bert-sum 
+
 mlm-imdb:
 	cat mlm-imdb.json | faas-cli invoke bert-base | faas-cli invoke bert-mlm-imdb | faas-cli invoke bert-mlm
 
