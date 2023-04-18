@@ -1,0 +1,17 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:31112
+functions:
+  loadmodels:
+    lang: python3-torch
+    handler: ./loadmodels
+    image: loadmodels:latest
+    environment:
+      minio_hostname: "10.96.130.15:9000"
+      minio_access_key: "Q0gVceW8HnRSangH"
+      minio_secret_key: "sLGnsAUHZBLESaFbEnMd4PakrJIpvkGF"
+      write_debug: true
+      read_timeout: 600000
+      write_timeout: 600000
+      exec_timeout: 600000

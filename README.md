@@ -15,6 +15,10 @@ kind was primarily designed for testing Kubernetes itself, but may be used for l
 
 [faas-cli](https://github.com/openfaas/faas-cli) is the official CLI for [OpenFaaS](https://github.com/openfaas/faas)
 
+### Helm
+
+[Helm](https://helm.sh/docs/intro/install/) is the best way to find, share, and use software built for Kubernetes.
+
 ## Set up environment
 
 ```bash
@@ -29,6 +33,40 @@ source ~/.bashrc
 echo export OPENFAAS_URL=http://127.0.0.1:31112 >> ~/.zshrc
 
 source ~/.zshrc
+```
+
+### Minio
+
+https://github.com/bitnami/charts/tree/main/bitnami/minio
+
+```bash
+helm repo add my-repo https://charts.bitnami.com/bitnami
+helm install my-release my-repo/minio
+```
+
+To get your credentials run:
+
+```bash
+export ROOT_USER=$(kubectl get secret --namespace default my-release-minio -o jsonpath="{.data.root-user}" | base64 -d)
+export ROOT_PASSWORD=$(kubectl get secret --namespace default my-release-minio -o jsonpath="{.data.root-password}" | base64 -d)
+```
+
+Run a MinIO&reg; Client pod and append the desired command (e.g. 'admin info'):
+
+```bash
+kubectl run --namespace default my-release-minio-client \
+    --rm --tty -i --restart='Never' \
+    --env MINIO_SERVER_ROOT_USER=$ROOT_USER \
+    --env MINIO_SERVER_ROOT_PASSWORD=$ROOT_PASSWORD \
+    --env MINIO_SERVER_HOST=my-release-minio \
+    --image docker.io/bitnami/minio-client:2023.4.12-debian-11-r1 -- admin info minio
+```
+
+Get the MinIO URL:
+
+```bash
+echo "MinIO&reg; web URL: http://127.0.0.1:9001/minio"
+kubectl port-forward --namespace default svc/my-release-minio 9001:9001
 ```
 
 ### Gateway
@@ -83,26 +121,29 @@ Run `kubectl get all -n openfaas` to get all pods
 Run `kubectl logs gateway-6787cc5f9-rj9ct -c faas-netes -n openfaas --since 0` to check the logs from openfass-gateway
 
 ## Expand Gateway timeout
+
 since the default timeout of gateway is 60s, it cannot support large model. We need to expand the `write_timeout`
 
 `/faas-netes/yaml/gateway-dep.yml`
+
 ```yaml
-        env:
-        - name: read_timeout
-          value: "6500s"
-        - name: write_timeout
-          value: "6500s"
-        - name: upstream_timeout
-          value: "6000s"
+env:
+  - name: read_timeout
+    value: "6500s"
+  - name: write_timeout
+    value: "6500s"
+  - name: upstream_timeout
+    value: "6000s"
 ```
 
 `/faas-netes/chart/openfaas/values.yaml`
+
 ```yaml
 gateway:
   image: ghcr.io/openfaas/gateway:0.26.3
   readTimeout: "6500s"
   writeTimeout: "6500s"
-  upstreamTimeout: "6000s"  # Must be smaller than read/write_timeout
+  upstreamTimeout: "6000s" # Must be smaller than read/write_timeout
 ```
 
 ## Functions
@@ -138,6 +179,7 @@ def handle(req):
 ```
 
 Or if you have Make:
+
 ```bash
 make create-py name=hello-test
 ```
@@ -190,14 +232,26 @@ I dont know why it cannot use HTTP request in the function
 echo "" | faas invoke <function> | faas invoke <function>
 ```
 
+### Function Environments
+
+```yaml
+environment:
+  minio_hostname: "10.96.130.15:9000"
+  minio_access_key: ""
+  minio_secret_key: ""
+  write_debug: true
+  read_timeout: 600000
+  write_timeout: 600000
+  exec_timeout: 600000
+```
 
 ### Trouble Shooting
+
 [Openfaas Docs](https://docs.openfaas.com/deployment/troubleshooting/)
 
 ```bash
 kubectl logs -n openfaas deploy/gateway -c gateway
 ```
-
 
 ```bash
 kubectl logs -n openfaas deploy/gateway -c faas-netes
