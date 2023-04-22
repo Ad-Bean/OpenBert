@@ -8,7 +8,10 @@ functions:
     handler: ./distilbert-pretrain
     image: distilbert-pretrain:latest
     environment:
-      read_timeout: 60000000
-      write_timeout: 60000000
-      exec_timeout: 60000000
-
+      minio_hostname: "10.96.130.15:9000"
+      minio_access_key: "Q0gVceW8HnRSangH"
+      minio_secret_key: "sLGnsAUHZBLESaFbEnMd4PakrJIpvkGF"
+      write_debug: true
+      read_timeout: 600000
+      write_timeout: 600000
+      exec_timeout: 600000

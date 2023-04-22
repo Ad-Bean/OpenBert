@@ -2,4 +2,5 @@
 transformers
 huggingface_hub
 datasets
-git-lfs
+# git-lfs
+minio

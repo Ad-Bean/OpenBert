@@ -4,3 +4,6 @@ deploy:
 	faas-cli deploy -f distilbert-pretrain.yml 
 run: 
 	cat input.json | faas invoke bert-base | faas-cli invoke distilbert-pretrain
+
+pretrain:
+	cat pretrain.json | faas-cli invoke distilbert-pretrain

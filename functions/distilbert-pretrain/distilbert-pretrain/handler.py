@@ -1,21 +1,49 @@
 import json
 import math
+import os
 from transformers import logging, AutoModel, AutoModelForMaskedLM, AutoTokenizer, DataCollatorForLanguageModeling, TrainingArguments, Trainer, default_data_collator
 from datasets import load_dataset
 import collections
 import numpy as np
 from huggingface_hub import login
+from minio import Minio
+import torch
+
 
 logging.set_verbosity_error()
 wwm_probability = 0.2
-model_name = 'distilbert-base-uncased'
 # model = AutoModel.from_pretrained(model_name)
-model = AutoModelForMaskedLM.from_pretrained(model_name)
-tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-#
+model_name = 'distilbert-base-uncased'
+file_path = "/tmp/"
+
+mc = Minio(os.environ['minio_hostname'],
+           access_key=os.environ['minio_access_key'],
+           secret_key=os.environ['minio_secret_key'],
+           secure=False)
+
+objects = mc.list_objects(model_name, recursive=True)
+for obj in objects:
+    file_name = obj.object_name.split('/')[-1]
+    mc.fget_object(model_name, file_name, file_path + file_name)
+
+model = AutoModelForMaskedLM.from_pretrained(file_path)
+tokenizer = AutoTokenizer.from_pretrained(file_path)
+
+
 chunk_size = 128
 
+
+available = ""
+
+if torch.cuda.is_available():
+    available = "GPU is available." + "\n" \
+                + "Device count is " + str(torch.cuda.device_count()) + "\n" \
+                + "Device name is " + torch.cuda.get_device_name(0)
+else:
+    available = "GPU is not available. Sorry."
+
+print(available)
 
 def whole_word_masking_data_collator(features):
     for feature in features:
@@ -135,7 +163,7 @@ def handle(req):
             per_device_train_batch_size=batch_size,
             per_device_eval_batch_size=batch_size,
             # push_to_hub=True,
-            # fp16=True,
+            fp16=True,
             logging_steps=logging_steps,
         )
         trainer = Trainer(
