@@ -163,7 +163,7 @@ def handle(req):
             per_device_train_batch_size=batch_size,
             per_device_eval_batch_size=batch_size,
             # push_to_hub=True,
-            fp16=True,
+            # fp16=True,
             logging_steps=logging_steps,
         )
         trainer = Trainer(
