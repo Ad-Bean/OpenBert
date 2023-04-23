@@ -1,0 +1,5 @@
+-i https://mirrors.cloud.tencent.com/pypi/simple
+transformers
+torch
+torchvision
+torchaudio
