@@ -3,7 +3,7 @@ deploy:
 	kind load docker-image distilbert-pretrain:latest --name openfaas 
 	faas-cli deploy -f distilbert-pretrain.yml 
 run: 
-	cat input.json | faas invoke bert-base | faas-cli invoke distilbert-pretrain
+	cat pretrain.json | faas-cli invoke distilbert-pretrain
 
 pretrain:
 	cat pretrain.json | faas-cli invoke distilbert-pretrain
