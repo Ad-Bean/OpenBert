@@ -1,13 +1,25 @@
+import random
 import uuid
 import requests
 import torch
 from minio import Minio
-from transformers import BertModel, BertTokenizer
 
-model_name = 'bert-base-uncased'
-model = BertModel.from_pretrained(model_name)
-tokenizer = BertTokenizer.from_pretrained(model_name)
+from transformers import pipeline, set_seed, AutoTokenizer, AutoModelForCausalLM
 
+
+model_name = "distilgpt2"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForCausalLM.from_pretrained(model_name)
+
+
+prompt = "Hey, are you conscious? Can you talk to me?"
+generator = pipeline('text-generation', model=model_name)
+set_seed(random.randint(1, 100))
+
+output_text = generator(prompt, max_length=20, num_return_sequences=5)
+
+for text in output_text:
+    print(text)
 
 directory = r'./models'
 model.save_pretrained(directory)
